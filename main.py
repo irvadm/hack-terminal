@@ -20,15 +20,7 @@ GARBAGE_STRING_LENGTH = 12
 MIN_ADDRESS = 0x9430
 
 
-def run():
-    # Create memory addresses
-    addresses = []
-    address = MIN_ADDRESS
-    for _ in range(TOTAL_ROWS):
-        addresses.append(address)
-        address += GARBAGE_STRING_LENGTH
-
-    # Initialize rows
+def create_rows():
     rows = []
     for _ in range(TOTAL_ROWS):
         rows.append({
@@ -37,6 +29,30 @@ def run():
             "address2": None,
             "garbage2": ""
         })
+    return rows
+
+
+def draw_rows(rows):
+    for row in rows:
+        row_content = (
+            row["address1"] + " " +
+            row["garbage1"] + " " +
+            row["address2"] + " " +
+            row["garbage2"]
+        )
+        print(row_content)
+
+
+def run():
+    # Initialize rows
+    rows = create_rows()
+
+    # Create memory addresses
+    addresses = []
+    address = MIN_ADDRESS
+    for _ in range(TOTAL_ROWS):
+        addresses.append(address)
+        address += GARBAGE_STRING_LENGTH
 
     # Add memory addresses to rows
     for i, row in enumerate(rows):
@@ -79,11 +95,7 @@ def run():
             row["garbage2"] = "".join([random.choice(GARBAGE_CHARS) for _ in range(GARBAGE_STRING_LENGTH)])
 
 
-    # Print rows
-    for row in rows:
-        row_content = row["address1"] + " " + row["garbage1"] + " " + row["address2"] + " " + row["garbage2"]
-        print(row_content)
-
+    draw_rows(rows)
     attempts = 3
     while True:
         while attempts > 0:
